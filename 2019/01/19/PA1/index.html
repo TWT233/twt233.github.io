@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>PA1 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">PA1</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">PA1</h1><div class="post-meta">2019-01-19</div><div class="post-content"><h1 id="GL-amp-HF"><a href="#GL-amp-HF" class="headerlink" title="GL&amp;HF"></a>GL&amp;HF</h1><p>今天开始就是正式的PA了，祝我好运（笑</p>
+<h1 id="PA-1-1"><a href="#PA-1-1" class="headerlink" title="PA-1-1"></a>PA-1-1</h1><p>这个有提示，用union做重叠效果，捋清楚结构关系就行</p>
+<h1 id="PA-1-2-整数的表示、存储和运算"><a href="#PA-1-2-整数的表示、存储和运算" class="headerlink" title="PA-1-2 整数的表示、存储和运算"></a>PA-1-2 整数的表示、存储和运算</h1><h2 id="加减-ADC-ADD-SUB-SBB"><a href="#加减-ADC-ADD-SUB-SBB" class="headerlink" title="加减: ADC ADD SUB SBB"></a>加减: ADC ADD SUB SBB</h2><p>这个刚看上去有点麻烦，虽然说是不难的东西，加加减减设EFLAGS就行，而且PPT上都有，但是比较容易绕进去。</p>
+<p>建议先看看EFLAGS各个功能和置位情况，就当复习汇编了。</p>
+<p>PS.在alu_adc写完之后的clean&amp;make阶段，我虚拟机里的vs code崩了。。。还好文件都保存了，现在关掉了虚拟机，出来调调内存和CPU，稍微给虚拟机分多点资源，也顺手出来写写博客。</p>
+<h2 id="移位-SAL-SHL-SAR-SHR"><a href="#移位-SAL-SHL-SAR-SHR" class="headerlink" title="移位 SAL SHL SAR SHR"></a>移位 SAL SHL SAR SHR</h2><p>佛了，和OF/CF打了一天，我现在QQ聊天打完一句话都想按ctrl+shift+alt+L格式化一下。</p>
+<p>这四个移位操作还蛮弟弟的，之前没有习惯80386 REF的风格，看得我很吃力，现在我写完加减乘除左右左右再来看，果然是先捋清楚一点再动手会比较好啊。</p>
+<p>稍微说说EFLAGS的操作</p>
+<p><img src="/2019/01/19/PA1/FA.png" alt="FLASGS AFFECTED"><br>ZF/PF/SF这三个比较简单，看数说话即可。具体的置位条件可以看Appendix C。在REF page 419.</p>
+<p>虽然说这里说“CF的设置方法也在附录里有写”，看起来非常好处理，但是还是有东西的，接下来就说这个CF。</p>
+<p><img src="/2019/01/19/PA1/SHIFT_CF.png" alt="移位操作中设置CF"></p>
+<p>这段伪代码在80386 REF CH17.2.2.11中移位指令一节，page383</p>
+<p>其中我标了12的两个IF就是设置CF的部分，四个移位指令被分成两组，（算术/逻辑左移）和（算术/逻辑右移）。</p>
+<p>左移的话CF=被移位数的原来的高位，有点像是把CF放在数的左边，去接住被移位挤出来的那个数。右移的话CF=被移位数的原来的低位，和左移是对称的。只移动一位很好理解。那假如多移几位呢？</p>
+<p>手册里的description是基于loop的，移动多位被分解成了多次的一位移动。所以移动多位后，CF是取最后接住的那位数，比如x=10110001b，shl 3bit -&gt; x=10001000b,cf=1 / 再比如x=10010001b，和刚才的例子只有x[5]不同，也shl 3bit -&gt; x=10001000b,cf=0。</p>
+<p>也可以自己写段简单的测试代码编译下断点试试，参考下正经的I386会怎么做，到后面写IMUL的时候动手测试的确帮了我大忙。</p>
+<p>接下来说说OF。</p>
+<p><img src="/2019/01/19/PA1/SHIFT_OF.png" alt="移位操作中设置OF"></p>
+<p>这一段就是OF的设置方法。首先，OF只在一位移动中被修改，移动位数不等于一的话就不用理他了，这是好的。</p>
+<p>OF的置位条件是被操作数变得太大/太小（有正负）以至于结果和预期结果不同。</p>
+<p>看移位操作中设置OF的说明，SAL和SHL操作中，OF=(结果的高位!=CF)。我稍微讲一下我的理解，OF应该是后于CF得出的：把结果的高位取出来，再和CF取不等。</p>
+<p>再举前面那个例子：x=10110001b，不过这次我们只左移一位，因为OF只在一位移动中被修改，其他都是未定义状态。</p>
+<p>10110001b&lt;&lt;1=01100010b,cf=1</p>
+<p>现在我们把结果的高位取出来，为0，此时CF=1，两者取不同，OF=1。</p>
+<p>来验证一下：</p>
+<p><img src="/2019/01/19/PA1/GDB_OF.png" alt="测试一下"></p>
+<p>可以看到在x1=x1&lt;&lt;1后，CF=1,OF=1。</p>
+<h2 id="乘除-MUL-IMUL-DIV-IDIV-MOD-IMOD"><a href="#乘除-MUL-IMUL-DIV-IDIV-MOD-IMOD" class="headerlink" title="乘除 MUL IMUL DIV IDIV MOD IMOD"></a>乘除 MUL IMUL DIV IDIV MOD IMOD</h2><p>说来惭愧，写1-2之前我没有好好看PPT和Guide，下次我再也不会了！前面的移位操作里的OF我写了一两个小时，然后把Guide翻到下一页：</p>
+<blockquote>
+<p>注意手册中提到移位指令只在单次移位时才会对 OF 位进行设置， 在 NEMU 中我们忽略这个细节， 不对移位操作后的 OF 位进行测试。</p>
+</blockquote>
+<p>心塞归心塞，PA还是要写的嘛，接下来我又在imul的OF上花了一两个小时，这次出现了雷同的剧情，我把Guide往后翻了一页：</p>
+<blockquote>
+<p>注意手册对于 imul 指令对标志位设置的描述较为模糊，因此在框架代码中，我们针对 imul 操作的标志位设置不进行测试。</p>
+</blockquote>
+<p>…这我真的没有什么好说的了，之后写PA我一定会好好看Guide和PPT的。</p>
+<p>说回正题，乘除的操作讲道理还蛮简单的（除了我在IMUL的OF上想了半天有什么tricky操作），不过我觉得框架代码里的MOD和IMOD的声明有点问题。</p>
+<blockquote>
+<p>uint32_t alu_mod(uint64_t src, uint64_t dest) 返回无符号模运算 dest % src 的结果</p>
+<p>int32_t alu_imod(int64_t src, int64_t dest) 返回带符号模运算 dest % src 的结果</p>
+</blockquote>
+<p>这个是框架的声明，src的长度都是64bits，而REF中对取余的描述（80386会在进行除法运算的同时给出商和余数）：</p>
+<blockquote>
+<p>The remainder is always less than the divisor. The type of the divisor determines which registers to use:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Size</th>
+<th style="text-align:center">Dividend</th>
+<th style="text-align:center">Divisor</th>
+<th style="text-align:center">Quotient</th>
+<th style="text-align:center">Remainder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">AX</td>
+<td style="text-align:center">r/m8</td>
+<td style="text-align:center">AL</td>
+<td style="text-align:center">AH</td>
+</tr>
+<tr>
+<td style="text-align:center">word</td>
+<td style="text-align:center">DX:AX</td>
+<td style="text-align:center">r/m16</td>
+<td style="text-align:center">AX</td>
+<td style="text-align:center">DX</td>
+</tr>
+<tr>
+<td style="text-align:center">dword</td>
+<td style="text-align:center">EDX:EAX</td>
+<td style="text-align:center">r/m32</td>
+<td style="text-align:center">EAX</td>
+<td style="text-align:center">EDX</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<p>从DIV对divisor的要求可以看出来，divisor的长度应该为dividend的一半，最高是32位，这个我问了汪汪男神，之后怎么讲我也会po上来的。</p>
+<p>如果是为了更加拟合80386原版操作，我认为应该把src长度削到32。不过为了简化计算以及变量统一性，我觉得64位也可以。</p>
+<p>MUL中只要设置CF和OF，设置方法也很清晰：如果结果的高半部分非全0，就设为1.</p>
+<p>IMUL的CF和OF虽然不作要求，但没看Guide的我还是写了，在琢磨置位条件的时候，我在网上看到了一篇不错的归纳，具体可以看<a href="https://www.shsu.edu/~csc_tjm/fall2001/cs272/module09.html" target="_blank" rel="noopener">这里</a>。而我对IMUL中CFOF的置位条件的理解是：如果操作数长度的空间不够表示结果了，那就置1。（其实和MUL的置位方法还挺对应的，MUL的置位条件想来也是这个意思）</p>
+<h1 id="虚拟机性能优化"><a href="#虚拟机性能优化" class="headerlink" title="虚拟机性能优化"></a>虚拟机性能优化</h1><p>emmm其实我之前也没有怎么了解过这个，我现在用的是米本pro，8250U+8G RAM，性能不高不低，挺够我日常用的。</p>
+<p>最开始我给虚拟机分的资源量是VMWare默认的1Core+512M RAM，结果在VSCode里make都崩了。我就出来看了看资源分配，发现IVT都没开，我才重新调了调内存和CPU资源量。</p>
+<p><img src="/2019/01/19/PA1/HWS.png" alt="虚拟机资源设置"></p>
+<p>首先IVT肯定得开，很久之前用虚拟机的时候，同学就教过我IVT对性能的提升还是很大的，当时试的效果也很nice。今天再试一次，效果也很好，我把资源加到2C2G+IVT，make时长大约是之前的四分之一，里面有多少是IVT的作用我就没有去试了。</p>
+<p>我这笔记本总共就4C8T8G，边开着虚拟机写PA还要在windows里开着vscode写博客，挂着QQ和网易云，算了算就分了2C2G先用着，这个参数就看着办了，虽然说多多益善不过还是量力而行较好。</p>
+<p>虚拟化计数器和IOMMU我一直都是不开的。虚拟化计数器好像是用来监测资源使用量的，这个功能我用不到，IOMMU好像对大内存的管理有优化，不过我这2G内存怎么想都不算大，这个选项还是留给那些内存比我硬盘大的选手吧（笑</p>
+<hr>
+<p>刚开始写PA的时候我用的是VSCode内置的terminal，因为切得爽嘛，而且深色底色看着舒服，MATE的terminal懒得换了。但是我在开完IVT之后感觉控制台输出还是有点卡卡的，想了想还是terminal的问题，就试了试MATE带的ternimal，真的变快了很多Orz</p>
+<p>现在我make clean和make就用MATE terminal了，跑testcase的时候就用VSCode，感觉速度和舒适度都比较适中了。</p>
+</div><div class="tags"><a href="/tags/PA/"><i class="fa fa-tag"></i>PA</a></div><div class="post-nav"><a class="pre" href="/2019/01/22/PA1-3/">PA1-3</a><a class="next" href="/2019/01/19/PA0/">PA0</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/io/" style="font-size: 15px;">io</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/04/总结-阿里云暑期实习总结/">[总结]阿里云暑期实习总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/面经-阿里研发工程师C-C-实习HR面/">[面经]阿里研发工程师C/C++实习HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/面经-阿里研发工程师C-C-实习三面交叉一面/">[面经]阿里研发工程师C/C++实习三面交叉一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/10/面经-腾讯PCG后台开发HR面/">[面经]腾讯PCG后台开发HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/07/面经-阿里研发工程师C-C-实习二面/">[面经]阿里研发工程师C/C++实习二面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/面经-阿里研发工程师C-C-实习一面/">[面经]阿里研发工程师C/C++实习一面</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

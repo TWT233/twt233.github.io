@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[课程]编译原理笔记3 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[课程]编译原理笔记3</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[课程]编译原理笔记3</h1><div class="post-meta">2020-09-10</div><div class="post-content"><h1 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h1><h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li>词法分析器的作用</li>
+<li><strong>词法单元的规约（正则表达式）</strong></li>
+<li><strong>词法单元的识别（状态转换图/有穷自动机)</strong></li>
+<li>词法分析器生成工具及设计</li>
+</ul>
+<h1 id="词法分析器的作用"><a href="#词法分析器的作用" class="headerlink" title="词法分析器的作用"></a>词法分析器的作用</h1><p>词法分析是<strong>读入</strong>源程序的输入<strong>字符</strong>、将它们组成<strong>词素</strong>，生成并输出一个词法单元<strong>序列</strong>，每个词法单元对应于一个词素</p>
+<ul>
+<li>常见的做法<ul>
+<li>由语法分析器调用，需要的时候不断读取、生成词法单元</li>
+<li>可以避免额外的输入输出</li>
+</ul>
+</li>
+</ul>
+<p>在识别出词法单元之外，还会完成一些不需要生成词法单元的简单处理，比如删除注释、将多个连续的空白字符压缩成一个字符等</p>
+<h2 id="词法分析相关概念"><a href="#词法分析相关概念" class="headerlink" title="词法分析相关概念"></a>词法分析相关概念</h2><ul>
+<li>词素（Lexeme）<ul>
+<li>源程序中的字符序列，它和某类词法单元的模式匹配，被词法分析器识别为该词法单元的实例。</li>
+</ul>
+</li>
+<li>词法单元（Token）：<ul>
+<li>包含单元名（Token-name）和可选的属性值(attributevalue)</li>
+<li>单元名是表示某种词法单位抽象符号。语法分析器通过单元名即可确定词法单元序列的结构。</li>
+</ul>
+</li>
+</ul>
+<h2 id="词法单元例子"><a href="#词法单元例子" class="headerlink" title="词法单元例子"></a>词法单元例子</h2><p>懒得抄图 略</p>
+<h2 id="词法单元属性"><a href="#词法单元属性" class="headerlink" title="词法单元属性"></a>词法单元属性</h2><ul>
+<li>一个模式匹配多个词素时，必须通过属性来传递附加的信息。属性值将被用于语义分析、代码生成等阶段。</li>
+<li>不同的目的需要不同的属性。因此，属性值通常是一个结构化数据。</li>
+<li>词法单元 id 的属性<ul>
+<li>词素、类型、第一次出现的位置、…</li>
+</ul>
+</li>
+</ul>
+<h1 id="词素-gt-词法单元-1"><a href="#词素-gt-词法单元-1" class="headerlink" title="词素 -&gt; 词法单元(1)"></a>词素 -&gt; 词法单元(1)</h1><p>第一步：如何描述词素</p>
+<p>使用模式来规约：</p>
+<blockquote>
+<p>模式（Pattern）</p>
+<ul>
+<li>词法单元对应的词素可能具有的形式</li>
+<li>可以用正则表达式来表示</li>
+</ul>
+</blockquote>
+<h1 id="词法单元的规约"><a href="#词法单元的规约" class="headerlink" title="词法单元的规约"></a>词法单元的规约</h1><h2 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h2><ul>
+<li>字母表：一个有限的符号集合<ul>
+<li>二进制{0，1}</li>
+<li>ASCII</li>
+<li>Unicode</li>
+<li>典型的字母表包括字母、数位和标点符号</li>
+</ul>
+</li>
+<li>串：<strong>字母表中符号</strong>组成的一个<strong>有穷序列</strong><ul>
+<li>串 s 的长度 |s|</li>
+<li>空串 ε，长度为 0 的串</li>
+</ul>
+</li>
+<li>语言：给定字母表上一个任意的可数的串的集合<ul>
+<li>语法正确的 C 程序的集合，英语，汉语</li>
+</ul>
+</li>
+</ul>
+<h3 id="和串有关的术语（banana）"><a href="#和串有关的术语（banana）" class="headerlink" title="和串有关的术语（banana）"></a>和串有关的术语（banana）</h3><ul>
+<li>前缀：从串的尾部删除 0 个或多个符号后得到的串（ban、banana、 ε）</li>
+<li>后缀：从串的开始处删除 0 个或多个符号后得到的串（nana、banana、ε）</li>
+<li>子串：删除串的某个前缀和某个后缀得到的串（banana、nan、 ε）</li>
+<li>真前缀、真后缀、真子串：既不等于原串，<strong>也不等于空串</strong>的前缀、后缀、子串</li>
+<li>子序列：从原串中删除 0 个或者多个符号后得到的串（baan）</li>
+</ul>
+<h3 id="串的运算"><a href="#串的运算" class="headerlink" title="串的运算"></a>串的运算</h3><ul>
+<li>连接(concatenation)：x 和 y 的连接时把 y 附加到 x 的后面形成的串，记作 xy。<ul>
+<li>x=dog，y=house，xy=doghouse</li>
+</ul>
+</li>
+<li>指数运算（幂运算）：s^0=ε，s^1=s，s^i=s^(i-1)s；<ul>
+<li>x=dog，x^0=ε，x^1=dog，x^3=dogdogdog</li>
+</ul>
+</li>
+</ul>
+<h3 id="语言上的运算"><a href="#语言上的运算" class="headerlink" title="语言上的运算"></a>语言上的运算</h3><ul>
+<li>并：两个集合拼起来</li>
+<li>连接：两个集合叉乘</li>
+<li>Kleene 闭包：集合的 4 次方</li>
+<li>正闭包：所有长度、所有字母的闭包</li>
+</ul>
+<h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a><strong>正则表达式</strong></h2><p>一种<strong>描述词素模式</strong>的重要表示方法</p>
+<ul>
+<li>可以描述所有通过对某个字母表上的符号应用运算符而得到的语言。其定义的集合叫做正则集合(regular set)</li>
+<li>每个正则表达式 r 可以描述一个语言 L(r)，也即其定义的正则集合</li>
+</ul>
+<blockquote>
+<p>正则表达式可以由较小的正则表达式递归构建（字母表 Σ 上的正则表达式的定义）</p>
+<ul>
+<li>基本部分<ul>
+<li>ε 是一个正则表达式，L(ε)={ε}</li>
+<li>如果 a 是 Σ 上的一个符号，那么 a 是正则表达式，L(a)={a}</li>
+</ul>
+</li>
+<li>归纳步骤：<ul>
+<li>选择：(r) | (s)，L((r) | (s))=L(r) U L(s)；</li>
+<li>连接：(r)(s)，L((r)(s))=L(r)L(s) ；</li>
+<li>闭包：(r)<em>，L((r)</em>)=(L(r))*；</li>
+<li>括号：(r)，L((r))=L(r)</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>实例练习：</p>
+<ul>
+<li>Σ={a,b}</li>
+<li>L(a|b) = {a,b}</li>
+<li>L((a|b)(a|b)) = {aa,ab,ba,bb}</li>
+<li>L(a*) = {ε,a,aa,aaa,aaaa,……}</li>
+<li>L((a|b)*) = {ε,a,b,aa,ab,ba,bb, aaa,aab,……}</li>
+<li>L(a|a*b) = {a,b,ab,aab,aaab,…}</li>
+<li>P76, 练习 3.2.2<ul>
+<li>((ε|a)b<em>)</em></li>
+</ul>
+</li>
+</ul>
+<h3 id="正则表达式的性质"><a href="#正则表达式的性质" class="headerlink" title="正则表达式的性质"></a>正则表达式的性质</h3><ul>
+<li>等价性</li>
+<li>|可交换</li>
+<li>|可结合</li>
+<li>连接可结合</li>
+<li>连接可分配</li>
+<li>连接对|可分配</li>
+<li>ε 是连接的单位元</li>
+<li>闭包中议顶包含 ε</li>
+<li>闭包有幂等性</li>
+</ul>
+<h2 id="正则定义"><a href="#正则定义" class="headerlink" title="正则定义"></a>正则定义</h2><p>对正则表达式命名，使表示简洁</p>
+<p>例子：C 语言的标识符集合：</p>
+<p>letter → A | B | … | Z | a | b | … | z | _</p>
+<p>digit → 0 | 1 | … | 9</p>
+<p>id → letter(letter|digit)*</p>
+<h2 id="正则表达式的扩展"><a href="#正则表达式的扩展" class="headerlink" title="正则表达式的扩展"></a>正则表达式的扩展</h2><p>基本运算符：并 连接 闭包</p>
+<ul>
+<li>扩展运算符<ul>
+<li>一个或多个：r+，等价于 rr*</li>
+<li>零个或一个： r?，等价于 ε |r</li>
+<li>字符类 [abc]等价于 a|b|c, [a-z]等价于 a|b|…|z</li>
+</ul>
+</li>
+</ul>
+</div><div class="tags"><a href="/tags/课程/"><i class="fa fa-tag"></i>课程</a><a href="/tags/笔记/"><i class="fa fa-tag"></i>笔记</a><a href="/tags/compiler/"><i class="fa fa-tag"></i>compiler</a></div><div class="post-nav"><a class="next" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/io/" style="font-size: 15px;">io</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/04/总结-阿里云暑期实习总结/">[总结]阿里云暑期实习总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/面经-阿里研发工程师C-C-实习HR面/">[面经]阿里研发工程师C/C++实习HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/面经-阿里研发工程师C-C-实习三面交叉一面/">[面经]阿里研发工程师C/C++实习三面交叉一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/10/面经-腾讯PCG后台开发HR面/">[面经]腾讯PCG后台开发HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/07/面经-阿里研发工程师C-C-实习二面/">[面经]阿里研发工程师C/C++实习二面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/面经-阿里研发工程师C-C-实习一面/">[面经]阿里研发工程师C/C++实习一面</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

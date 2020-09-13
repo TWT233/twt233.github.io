@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[面经]腾讯PCG移动端开发实习 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[面经]腾讯PCG移动端开发实习</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[面经]腾讯PCG移动端开发实习</h1><div class="post-meta">2020-03-24</div><div class="post-content"><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>网申投简历的时候，看到移动端开发录取比是 1/4，PC 端开发录取比是 1/7，然后就投了移动端开发 Orz，现在想想确实是浪费机会了，还是投自己最擅长的领域比较好，出门就学到了东西也好。然后被捞起来过了四五天才打电话来通知面试，我差点以为我被晾了。第一意向事业群是 WXG，结果还是被 PCG 捞起来的。</p>
+<h1 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h1><p>电话面试，约的 0323 晚上八点，面了 34 分钟。</p>
+<h2 id="问技术"><a href="#问技术" class="headerlink" title="问技术"></a>问技术</h2><h3 id="OS"><a href="#OS" class="headerlink" title="OS"></a>OS</h3><p>开门就是 OS，按顺序问了以下问题：</p>
+<ul>
+<li>进程和线程了解吗？讲讲区别。</li>
+<li>进程间通信有什么方式？</li>
+<li>你刚刚说你用过共享内存对吧，那讲讲怎么用的。</li>
+<li>死锁是什么</li>
+<li>怎么检测解决死锁？</li>
+<li>进程间的同步机制</li>
+<li>情景题：我在一个可重入的函数中有一个变量，访问这个变量要加锁吗？<ul>
+<li>追问：那这个变量保存在哪里？</li>
+</ul>
+</li>
+<li>情景题：那我读一个临界区的资源时不加锁，写的时候加锁，可以吗？<ul>
+<li>我回答的是可以，但我画蛇添足了一段：按规范来说读写都是要加锁的</li>
+<li>追问：为什么？</li>
+</ul>
+</li>
+</ul>
+<h3 id="计网"><a href="#计网" class="headerlink" title="计网"></a>计网</h3><ul>
+<li>情景题：我在浏览器中输入一个网址，从我访问这个链接到返回页面的全过程</li>
+<li>讲讲 HTTP 的状态码<ul>
+<li>这里我没有复习到，所以只讲了我之前接触过的 301/302/404/502。</li>
+</ul>
+</li>
+<li>（承接上个问题）那你知道正常的返回码是多少吗？<ul>
+<li>这个就是我没复习到的，我只回答了：我记得是 2 开头的状态码。</li>
+<li>面完查了一下，确实是 2 开头的，不过具体的代码都有不同的含义。</li>
+</ul>
+</li>
+<li>讲讲 HTTP1.0 和 HTTP1.1 的差别？<ul>
+<li>我不会，只根据印象讲了一个 keep-alive 变成默认值。</li>
+</ul>
+</li>
+</ul>
+<h3 id="C-数据结构-Java"><a href="#C-数据结构-Java" class="headerlink" title="C++/数据结构/Java"></a>C++/数据结构/Java</h3><p>面试官问了下我：你之前说你主要用 C++还是 Java 来着？我说我用 C++多，然后面试官就开始问 C++了，但是问着问着又混进来 Java 的一些数据结构。</p>
+<ul>
+<li>虚函数怎么实现的</li>
+<li>用过 hashMap 吗？底层怎么实现的？</li>
+<li>hash 冲突怎么办？</li>
+<li>如果要加长怎么办？<ul>
+<li>rehash，这里我答了 rehash 的流程，不过感觉面试官不是太满意。我也没敢问有什么问题。</li>
+</ul>
+</li>
+<li>Java 里面的 linkedHashMap 用过吗？<ul>
+<li>面完出来查一下才知道我用过，我服了我自己了。</li>
+</ul>
+</li>
+<li>Map 的底层实现是什么？<ul>
+<li>这里应该说的是 C++的 Map，我还以为是承着上一问在问 Java，想了一会儿才转回到 C++上来。</li>
+</ul>
+</li>
+<li>设计数据结构：<ul>
+<li>性质 1：是个集合，元素唯一。</li>
+<li>性质 2：能够按我输入的顺序取出。</li>
+<li>我面的时候说的是用 Set+List，List 上记录指针指向 Set 上的节点。我说完之后面试官问我：是不是有数据冗余？我就说我在 List 上只记录指针不记录数据 blabla，感觉面试官是勉强通过了。</li>
+<li>应该用一个 Set 就行，key=插入的元素，value=一对指针指向上一个/下一个节点。</li>
+</ul>
+</li>
+</ul>
+<h2 id="问项目"><a href="#问项目" class="headerlink" title="问项目"></a>问项目</h2><ul>
+<li>介绍一下你的项目</li>
+<li>问了一下项目中的具体实现</li>
+<li>讲讲另一个项目</li>
+</ul>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><p>一面挂，我觉得首先是有些东西我还是没有掌握好，其次是我有点话多，还是要更精确地回答问题，不是说的多就好。第一次面试就这么没了，不过肯定会继续的。</p>
+</div><div class="tags"><a href="/tags/面经/"><i class="fa fa-tag"></i>面经</a><a href="/tags/c/"><i class="fa fa-tag"></i>c++</a><a href="/tags/计网/"><i class="fa fa-tag"></i>计网</a><a href="/tags/os/"><i class="fa fa-tag"></i>os</a><a href="/tags/java/"><i class="fa fa-tag"></i>java</a></div><div class="post-nav"><a class="pre" href="/2020/03/25/面经-知识点-腾讯PCG移动端开发实习面试知识点补充/">[面经][知识点]腾讯PCG移动端开发实习面试知识点补充</a><a class="next" href="/2019/04/07/binary-bomb/">binary bomb</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/io/" style="font-size: 15px;">io</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/04/总结-阿里云暑期实习总结/">[总结]阿里云暑期实习总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/面经-阿里研发工程师C-C-实习HR面/">[面经]阿里研发工程师C/C++实习HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/面经-阿里研发工程师C-C-实习三面交叉一面/">[面经]阿里研发工程师C/C++实习三面交叉一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/10/面经-腾讯PCG后台开发HR面/">[面经]腾讯PCG后台开发HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/07/面经-阿里研发工程师C-C-实习二面/">[面经]阿里研发工程师C/C++实习二面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/面经-阿里研发工程师C-C-实习一面/">[面经]阿里研发工程师C/C++实习一面</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

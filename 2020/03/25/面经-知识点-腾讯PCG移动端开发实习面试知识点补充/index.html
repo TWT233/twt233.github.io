@@ -1,0 +1,153 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[面经][知识点]腾讯PCG移动端开发实习面试知识点补充 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[面经][知识点]腾讯PCG移动端开发实习面试知识点补充</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[面经][知识点]腾讯PCG移动端开发实习面试知识点补充</h1><div class="post-meta">2020-03-25</div><div class="post-content"><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>补充对应的 post，对那些我感觉没答好/没答上来的知识点进行一下总结</p>
+<h1 id="OS"><a href="#OS" class="headerlink" title="OS"></a>OS</h1><blockquote>
+<ul>
+<li>情景题：我在一个可重入的函数中有一个变量，访问这个变量要加锁吗？</li>
+<li>追问：那这个变量保存在哪里？</li>
+</ul>
+</blockquote>
+<p>回答：我询问了一下是否位局部变量，面试官说是局部变量，我回答不需要加锁，这是正确答案，巩固一下。</p>
+<blockquote>
+<ul>
+<li>情景题：那我读一个临界区的资源时不加锁，写的时候加锁，可以吗？<ul>
+<li>我回答的是可以，但我画蛇添足了一段：按规范来说读写都是要加锁的</li>
+<li>追问：为什么？</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>回答：我回答的是可以，虽然也对了不过当时不太自信，表现也有问题，这个问题其实可以看成读者和写者问题，这个是不需要加锁的，自信点。</p>
+<h1 id="计网"><a href="#计网" class="headerlink" title="计网"></a>计网</h1><blockquote>
+<ul>
+<li>讲讲 HTTP 的状态码<ul>
+<li>这里我没有复习到，所以只讲了我之前接触过的 301/302/404/502。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>答案：凭印象答的，该记了</p>
+<blockquote>
+<p>摘自<br><a href="https://www.cnblogs.com/gitnull/p/9532129.html" target="_blank" rel="noopener">https://www.cnblogs.com/gitnull/p/9532129.html</a> &amp; <a href="https://www.jianshu.com/p/52d86558ca57" target="_blank" rel="noopener">https://www.jianshu.com/p/52d86558ca57</a></p>
+</blockquote>
+<ul>
+<li>1**开头 （信息状态码）表示请求已接收，继续处理。</li>
+<li>2**开头 （成功状态码）表示成功处理了请求的状态代码。</li>
+<li>3** 开头 （重定向状态码）表示要完成请求，需要进一步操作。 通常，这些状态代码用来重定向。</li>
+<li>4**开头 （客户端错误状态码）这些状态代码表示请求可能出错，妨碍了服务器的处理。</li>
+<li><p>5**开头（服务器错误状态码）这些状态代码表示服务器在尝试处理请求时发生内部错误。 这些错误可能是服务器本身的错误，而不是请求出错。</p>
+<ul>
+<li>100 （继续） 初始的请求已经接受，客户应当继续发送请求的其余部分。</li>
+<li><p>101 （切换协议） 服务器将遵从客户的请求转换到另外一种协议。</p>
+</li>
+<li><p><strong>200 （成功） 服务器已成功处理了请求。 通常，这表示服务器提供了请求的网页。</strong></p>
+</li>
+<li>201 （已创建） 请求成功并且服务器创建了新的资源。</li>
+<li>202 （已接受） 服务器已接受请求，但尚未处理。</li>
+<li>203 （非授权信息） 服务器已成功处理了请求，但返回的信息可能来自另一来源。</li>
+<li>204 （无内容） 服务器成功处理了请求，但没有返回任何内容。</li>
+<li>205 （重置内容） 服务器成功处理了请求，但没有返回任何内容。</li>
+<li><p>206 （部分内容） 服务器成功处理了部分 GET 请求。</p>
+</li>
+<li><p><strong>301 （永久移动） 请求的网页已永久移动到新位置。 服务器返回此响应（对 GET 或 HEAD 请求的响应）时，会自动将请求者转到新位置。</strong></p>
+</li>
+<li><strong>302 （临时移动） 服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</strong></li>
+<li>303 （查看其他位置） 请求者应当对不同的位置使用单独的 GET 请求来检索响应时，服务器返回此代码。</li>
+<li>304 （未修改） 自从上次请求后，请求的网页未修改过。 服务器返回此响应时，不会返回网页内容。</li>
+<li>305 （使用代理） 请求者只能使用代理访问请求的网页。 如果服务器返回此响应，还表示请求者应使用代理。</li>
+<li><p>307 （临时重定向） 服务器目前从不同位置的网页响应请求，但请求者应继续使用原有位置来进行以后的请求。</p>
+</li>
+<li><p>400 （错误请求） 服务器不理解请求的语法。</p>
+</li>
+<li><strong>401 （未授权） 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应。</strong></li>
+<li><strong>403 （禁止） 服务器拒绝请求。</strong></li>
+<li><strong>404 （未找到） 服务器找不到请求的网页。</strong></li>
+<li>405 （方法禁用） 禁用请求中指定的方法。</li>
+<li>406 （不接受） 无法使用请求的内容特性响应请求的网页。</li>
+<li>407 （需要代理授权） 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理。</li>
+<li>408 （请求超时） 服务器等候请求时发生超时。</li>
+<li>409 （冲突） 服务器在完成请求时发生冲突。 服务器必须在响应中包含有关冲突的信息。</li>
+<li>410 （已删除） 如果请求的资源已永久删除，服务器就会返回此响应。</li>
+<li>411 （需要有效长度） 服务器不接受不含有效内容长度标头字段的请求。</li>
+<li>412 （未满足前提条件） 服务器未满足请求者在请求中设置的其中一个前提条件。</li>
+<li>413 （请求实体过大） 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力。</li>
+<li>414 （请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理。</li>
+<li>415 （不支持的媒体类型） 请求的格式不受请求页面的支持。</li>
+<li>416 （请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码。</li>
+<li><p>417 （未满足期望值） 服务器未满足”期望”请求标头字段的要求。</p>
+</li>
+<li><p><strong>500 （服务器内部错误） 服务器遇到错误，无法完成请求。</strong></p>
+</li>
+<li>501 （尚未实施） 服务器不具备完成请求的功能。 例如，服务器无法识别请求方法时可能会返回此代码。</li>
+<li><strong>502 （错误网关） 服务器作为网关或代理，从上游服务器收到无效响应。</strong></li>
+<li><strong>503 （服务不可用） 服务器目前无法使用（由于超载或停机维护）。 通常，这只是暂时状态。</strong></li>
+<li><strong>504 （网关超时） 服务器作为网关或代理，但是没有及时从上游服务器收到请求。</strong></li>
+<li><strong>505 （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本。</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>讲讲 HTTP1.0 和 HTTP1.1 的差别？<ul>
+<li>我不会，只根据印象讲了一个 keep-alive 变成默认值。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>感觉这部分网上的讲解各有不同，所以只写写我个人理解，说点比较通俗的：</p>
+<ul>
+<li>首先，HTTP1.1 默认使用长连接，即报头中的 Connection 请求头默认值为 keep-alive（不使用长连接的话只需设 Connection:closed）</li>
+<li>请求头中增加 host 字段，可以支持同一个 IP、同一个端口上架设的多个虚拟主机服务。</li>
+<li>支持断点续传：请求头加入 Range 段，例如 Range: bytes=500-999 表示 [500-999] 字节，响应头会有对应的 Content-Range 段，例如 Content-Range: bytes=500-1233/1234 表示返回了[500-1233]字节，文件大小为 1234 字节。<ul>
+<li>注意，使用 range 时，服务端返回的状态码是 <strong>206</strong></li>
+</ul>
+</li>
+<li>对缓存的支持：加入了更多的请求头字段来支持缓存，如 If-Unmodified-Since, If-Match, If-None-Match。</li>
+<li>新增了 100 状态码，表示继续传输状态，客户端可以先发请求头试探一下，如果有问题的话服务器就会返回其他状态码，没问题的话就返回 100，客户端接到 100 状态码再发请求体即可，可以节约资源。</li>
+</ul>
+<h1 id="C-数据结构-Java"><a href="#C-数据结构-Java" class="headerlink" title="C++/数据结构/Java"></a>C++/数据结构/Java</h1><blockquote>
+<ul>
+<li>用过 hashMap 吗？底层怎么实现的？</li>
+</ul>
+</blockquote>
+<ul>
+<li>注意：当同一个桶内元素过多时（默认为 8），该桶内的数据结构会从简单链表变成红黑树</li>
+<li>注意：hashMap 默认的桶数量为 16。</li>
+</ul>
+<blockquote>
+<ul>
+<li>如果要加长怎么办？<ul>
+<li>rehash，这里我答了 rehash 的流程，不过感觉面试官不是太满意。我也没敢问有什么问题。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>首先，rehash 一般是指 redis 的 hashMap 扩张和收缩的操作，在 Java 中这个操作一般叫 resize</li>
+<li>什么时候加长：装载因子&gt;=0.75 时（默认情况）</li>
+<li>加到多长：桶数量翻倍。</li>
+</ul>
+<blockquote>
+<ul>
+<li>Java 里面的 linkedHashMap 用过吗？<ul>
+<li>面完出来查一下才知道我用过，我服了我自己了。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>linkedHashMap 简单的说就是 linkedList+hashMap，给 hashMap 中的每个 entry 加入 before 和 after 指针，这样就能实现 hashMap 的有序遍历。</li>
+</ul>
+<blockquote>
+<ul>
+<li>设计数据结构：<ul>
+<li>性质 1：是个集合，元素唯一。</li>
+<li>性质 2：能够按我输入的顺序取出。</li>
+<li>我面的时候说的是用 Set+List，List 上记录指针指向 Set 上的节点。我说完之后面试官问我：是不是有数据冗余？我就说我在 List 上只记录指针不记录数据 blabla，感觉面试官是勉强通过了。</li>
+<li>应该用一个 Set 就行，key=插入的元素，value=一对指针指向上一个/下一个节点。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<ul>
+<li>答案：我现在觉得比较规范的答案是红黑树+链表，效仿 linkedHashMap 做一个 linkedSet。</li>
+</ul>
+</div><div class="tags"><a href="/tags/面经/"><i class="fa fa-tag"></i>面经</a><a href="/tags/c/"><i class="fa fa-tag"></i>c++</a><a href="/tags/计网/"><i class="fa fa-tag"></i>计网</a><a href="/tags/os/"><i class="fa fa-tag"></i>os</a><a href="/tags/java/"><i class="fa fa-tag"></i>java</a></div><div class="post-nav"><a class="pre" href="/2020/03/26/面经-腾讯PCG安卓开发实习/">[面经]腾讯PCG安卓开发实习</a><a class="next" href="/2020/03/24/面经-腾讯PCG移动端开发实习/">[面经]腾讯PCG移动端开发实习</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/io/" style="font-size: 15px;">io</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/04/总结-阿里云暑期实习总结/">[总结]阿里云暑期实习总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/面经-阿里研发工程师C-C-实习HR面/">[面经]阿里研发工程师C/C++实习HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/面经-阿里研发工程师C-C-实习三面交叉一面/">[面经]阿里研发工程师C/C++实习三面交叉一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/10/面经-腾讯PCG后台开发HR面/">[面经]腾讯PCG后台开发HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/07/面经-阿里研发工程师C-C-实习二面/">[面经]阿里研发工程师C/C++实习二面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/面经-阿里研发工程师C-C-实习一面/">[面经]阿里研发工程师C/C++实习一面</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

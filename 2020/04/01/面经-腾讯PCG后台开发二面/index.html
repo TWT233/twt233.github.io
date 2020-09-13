@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[面经]腾讯PCG后台开发二面 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[面经]腾讯PCG后台开发二面</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[面经]腾讯PCG后台开发二面</h1><div class="post-meta">2020-04-01</div><div class="post-content"><h1 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h1><p>昨天下午三点电话面完一面，手撕从七点到九点，晚上十点左右状态就更新到复试了。然后今天下午两三点，二面的面试官就打电话来和我约时间了。他问我今明两天有空吗？我脑子一热就选了今天;_;)然后晚上七点就开始了。</p>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><h2 id="选择题"><a href="#选择题" class="headerlink" title="选择题"></a>选择题</h2><p>上来两道选择题：</p>
+<ul>
+<li>线程共享以下哪些资源：<br>A. 栈<br>B. 数据段<br>C. 寄存器<br>D. TID</li>
+</ul>
+<p>ez，B</p>
+<ul>
+<li>下列操作中，多线程环境需要加锁的是？<br>A. x=y<br>B. x++<br>C. x=x+1<br>D. x=1</li>
+</ul>
+<p>这题我只知道从原子操作角度入手，但是我只果断排除了 D。</p>
+<p>我不知道 y 是不是临界区的变量，所以我不敢直接排除，问面试官结果面试官也说暂且当它是局部变量，所以我就没选。。。</p>
+<p>应该直接用原子操作原则 ABC 全选上的。x++我记成原子操作了，我还是基础知识不到位，最后就单选了一个 C。</p>
+<h2 id="判断题"><a href="#判断题" class="headerlink" title="判断题"></a>判断题</h2><p>然后面试官问了几道判断题，和动态链接库有关的：</p>
+<ul>
+<li><p>动态链接库比静态链接库快，对吗？</p>
+<ul>
+<li>前面两三题都是动态&amp;静态链接库比快慢，不过比了哪些方面我忘了=、=</li>
+</ul>
+</li>
+<li><p>动态链接库可以显式加载/运行时加载，对吗？</p>
+</li>
+</ul>
+<h2 id="问答题"><a href="#问答题" class="headerlink" title="问答题"></a>问答题</h2><h3 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h3><ul>
+<li>死锁</li>
+<li>死锁的检测</li>
+<li>中断处理<ul>
+<li>面试官在这里问我：如果中断的处理函数太久了那怎么办？我也没 get 到这里的点。然后面试官问我，有没有接触过响应和处理分离式的中断处理，我到这里才有点印象，我记得这个是哪个版本的 linux 内核的处理方式？2.x 的？</li>
+<li>查了下，是 tasklet 的上半部/下半部机制 555</li>
+</ul>
+</li>
+</ul>
+<h3 id="计网"><a href="#计网" class="headerlink" title="计网"></a>计网</h3><ul>
+<li>我在浏览器里输入一个网址，比如 <a href="http://www.qq.com，浏览器从打开这个网址到返回页面为止做了些啥。" target="_blank" rel="noopener">www.qq.com，浏览器从打开这个网址到返回页面为止做了些啥。</a></li>
+<li>讲讲三次握手，为啥不能是两次？<ul>
+<li>拓展：那讲讲四次挥手，为啥这里就要四次而不是三次？</li>
+</ul>
+</li>
+<li>你刚才讲到 HTTP 和 HTTPS，有了解过区别吗？<ul>
+<li>稍微讲讲 HTTPS 的连接呗</li>
+<li>那 HTTPS 里加密对称密钥的过程是怎么做的？（问非对称加密过程）</li>
+</ul>
+</li>
+</ul>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><ul>
+<li>设计数据结构：<ul>
+<li>设计一个数据结构供简化的 CPU 调度使用，有以下两个调度函数：<ul>
+<li>ADD(time,function)<ul>
+<li>往任务队列里插入一个计划：在 time 秒后执行 function 函数</li>
+</ul>
+</li>
+<li>RUN()<ul>
+<li>CPU 每秒都会执行这个 RUN()函数，运行当前秒所需要执行的函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>我用的方案是循环数组+开链表/红黑树（效仿 hashMap）<ul>
+<li>面试官和我探讨了一会儿这个问题，他就提出了不如只用链表，然后因为 ADD 的插入过程可以做排序，RUN 只需要遍历即可。这个面试官确实很好交流哈哈哈。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="问项目"><a href="#问项目" class="headerlink" title="问项目"></a>问项目</h2><p>问了我 C/C++的项目，其实这是个偏硬件方向的项目，问了我技术选型的问题：为什么选这个系统呢，然后问了我有没有什么印象深刻的困难或者经历。</p>
+<h1 id="其他讨论"><a href="#其他讨论" class="headerlink" title="其他讨论"></a>其他讨论</h1><p>问了下我可以实习的时间，我说我的时间还是比较宽松的，三个月肯定有。然后就大家收工互道再见了。</p>
+</div><div class="tags"><a href="/tags/面经/"><i class="fa fa-tag"></i>面经</a><a href="/tags/c/"><i class="fa fa-tag"></i>c++</a><a href="/tags/计网/"><i class="fa fa-tag"></i>计网</a><a href="/tags/os/"><i class="fa fa-tag"></i>os</a></div><div class="post-nav"><a class="pre" href="/2020/04/01/面经-腾讯PCG后台开发一面手撕部分/">[面经]腾讯PCG后台开发一面手撕部分</a><a class="next" href="/2020/03/31/面经-腾讯PCG后台开发实习/">[面经]腾讯PCG后台开发实习</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/io/" style="font-size: 15px;">io</a> <a href="/tags/生活/" style="font-size: 15px;">生活</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/04/总结-阿里云暑期实习总结/">[总结]阿里云暑期实习总结</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/21/面经-阿里研发工程师C-C-实习HR面/">[面经]阿里研发工程师C/C++实习HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/14/面经-阿里研发工程师C-C-实习三面交叉一面/">[面经]阿里研发工程师C/C++实习三面交叉一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/10/面经-腾讯PCG后台开发HR面/">[面经]腾讯PCG后台开发HR面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/07/面经-阿里研发工程师C-C-实习二面/">[面经]阿里研发工程师C/C++实习二面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/03/面经-阿里研发工程师C-C-实习一面/">[面经]阿里研发工程师C/C++实习一面</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
