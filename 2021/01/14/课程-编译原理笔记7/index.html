@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[课程]编译原理笔记7 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[课程]编译原理笔记7</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[课程]编译原理笔记7</h1><div class="post-meta">2021-01-14</div><div class="post-content"><h1 id="运行时刻环境"><a href="#运行时刻环境" class="headerlink" title="运行时刻环境"></a>运行时刻环境</h1><p>运行时刻环境</p>
+<ul>
+<li>为数据分配安排存储位置</li>
+<li>确定访问变量时使用的机制</li>
+<li>过程之间的连接</li>
+<li>参数传递</li>
+<li>和操作系统、输入输出设备相关的其它接口</li>
+</ul>
+<p>主题</p>
+<ul>
+<li>存储管理：栈分配、堆管理、垃圾回收</li>
+<li>对变量、数据的访问</li>
+</ul>
+<h1 id="存储分配的典型方式"><a href="#存储分配的典型方式" class="headerlink" title="存储分配的典型方式"></a>存储分配的典型方式</h1><ul>
+<li>目标程序的代码放置在代码区</li>
+<li>静态区、堆区、栈区分别放置不同类型生命期的数据值</li>
+<li>实践中，栈是由低地址向高地址增长，而堆是由高地址向低地址增长</li>
+</ul>
+<h1 id="静态和动态存储分配"><a href="#静态和动态存储分配" class="headerlink" title="静态和动态存储分配"></a>静态和动态存储分配</h1><ul>
+<li>静态分配<ul>
+<li>编译器在编译时刻就可以做出存储分配决定，不需要考虑程序运行时刻的情形</li>
+<li>全局变量</li>
+</ul>
+</li>
+<li>动态分配<ul>
+<li>栈式存储：和过程的调用/返回同步进行分配和回收，值的生命期和过程生命期相同</li>
+<li>堆存储：数据对象比创建它的过程调用更长寿<ul>
+<li>手工进行回收</li>
+<li>垃圾回收机制</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="栈式分配"><a href="#栈式分配" class="headerlink" title="栈式分配"></a>栈式分配</h1><ul>
+<li>主要内容<ul>
+<li>活动树</li>
+<li>活动记录</li>
+<li>调用代码序列</li>
+<li>栈中的变长数据</li>
+</ul>
+</li>
+</ul>
+<h1 id="活动树"><a href="#活动树" class="headerlink" title="活动树"></a>活动树</h1><ul>
+<li>过程调用（过程活动）在时间上总是嵌套的<ul>
+<li>后调用的先返回</li>
+<li>因此用栈式分配来分配过程活动所需内存空间</li>
+</ul>
+</li>
+<li>程序运行的所有过程活动可以用<strong>树</strong>表示<ul>
+<li>每个结点对应于一个过程活动</li>
+<li>根结点对应于 main 过程的活动</li>
+<li>过程 p 的某次活动对应的结点的所有子结点：此次活动所调用的各个过程活动（从左向右，表示调用的先后顺序）</li>
+</ul>
+</li>
+</ul>
+<h1 id="活动记录"><a href="#活动记录" class="headerlink" title="活动记录"></a>活动记录</h1><ul>
+<li>调用者和被调用者之间传递的值放在被调用者活动记录的开始位置</li>
+<li>固定长度的项放在中间位置<ul>
+<li>控制链、访问链、机器状态字段</li>
+</ul>
+</li>
+<li>早期不知道大小的项在活动记录尾部</li>
+<li>栈顶指针(top_sp)通常指向固定长度字段的末端</li>
+</ul>
+</div><div class="tags"></div><div class="post-nav"><a class="next" href="/2021/01/10/课程-编译原理笔记6/">[课程]编译原理笔记6</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/01/14/课程-编译原理笔记7/">[课程]编译原理笔记7</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/01/10/课程-编译原理笔记6/">[课程]编译原理笔记6</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/21/课程-编译原理lab3/">[课程]编译原理lab3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/04/课程-编译原理笔记5/">[课程]编译原理笔记5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/24/课程-编译原理笔记4/">[课程]编译原理笔记4</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/17/面经-字节基础架构后端开发一面/">[面经]字节基础架构后端开发一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

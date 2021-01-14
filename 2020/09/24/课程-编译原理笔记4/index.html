@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="Blog on Techs/Dev/Games/Life/meme"><title>[课程]编译原理笔记4 | Twilight Tornado</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[课程]编译原理笔记4</h1><a id="logo" href="/.">Twilight Tornado</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[课程]编译原理笔记4</h1><div class="post-meta">2020-09-24</div><div class="post-content"><h1 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h1><h1 id="文法"><a href="#文法" class="headerlink" title="文法"></a>文法</h1><p>一种用于描述程序设计语言语法的表示方法，能够自然地描述程序设计语言构造的层次化语法结构</p>
+<ul>
+<li>文法给出了一个程序设计语言的精确易懂的语法规约</li>
+<li>可以基于文法构造语法分析器，帮助确定源程序的语法结构</li>
+<li>语法结构有助于把源程序翻译为正确的目标代码</li>
+<li>文法的扩展性，有助于迭代的语言演化</li>
+</ul>
+<h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1><ul>
+<li>输入：词法分析器输出的词法单元序列</li>
+<li>输出：语法树表示</li>
+<li>语法分析器功能：<ul>
+<li>验证输入源程序的合法性，输出良构程序的语法结构</li>
+<li>对于病构的程序，能够报告语法错误，进行错误恢复</li>
+</ul>
+</li>
+<li>语法分析器的类型：<ul>
+<li>通用型</li>
+<li>自顶向下：通常处理 LL 文法</li>
+<li>自底向上：通常处理 LR 文法</li>
+</ul>
+</li>
+</ul>
+<h1 id="上下文无关文法的定义"><a href="#上下文无关文法的定义" class="headerlink" title="上下文无关文法的定义"></a>上下文无关文法的定义</h1><p>一个 CFG 由以下几个部分构成</p>
+<ul>
+<li><strong>终结符号</strong><ul>
+<li>组成串的基本符号，与“词法单元名字”同义</li>
+</ul>
+</li>
+<li>非终结符号<ul>
+<li>语法变量，表示特定串的集合</li>
+<li>给出了语言的层次结构，这种层次结构是语法分析和翻译的关键</li>
+</ul>
+</li>
+<li>一个开始符号<ul>
+<li>某个特定的非终结符号，其表示的串集合是这个文法生成的语言</li>
+</ul>
+</li>
+<li>一组<strong>产生式</strong><ul>
+<li>描述将终结符号和非终结符号组合成串的方法</li>
+<li>产生式左部（头）是一个非终结符号</li>
+<li>符号 <code>→</code></li>
+<li>一个由零个或多个终结符号与非终结符号组成的产生式右部（体）</li>
+</ul>
+</li>
+</ul>
+<h1 id="推导"><a href="#推导" class="headerlink" title="推导"></a>推导</h1><p>（这一部分的符号看 PPT）</p>
+<ul>
+<li>产生式又可称为重写规则（Rewriting rule）</li>
+<li>推导<ul>
+<li>将待处理的串中的某个非终结符号替换为这个非终结符号的某个产生式的体</li>
+<li>从开始符号出发，不断进行上面的替换，就可以得到文法的不同句型</li>
+</ul>
+</li>
+<li><p>推导的实例</p>
+<ul>
+<li>文法: E → -E | E+E | E*E | (E) | id</li>
+<li>从 E 到-(id)的推导序列：E =&gt; -E =&gt; -(E) =&gt; -(id)</li>
+</ul>
+</li>
+<li><p>推导的一般性定义</p>
+<ul>
+<li>如果 A→γ 是一个产生式，那么 αAβ ⇒ αγβ</li>
+</ul>
+</li>
+<li>经过零步或者多步推导出：[*=&gt;]<ul>
+<li>对于任何串 α, α[*=&gt;]α</li>
+<li>如果 α[<em>=&gt;]β 且 β⇒γ，那么 α[</em>=&gt;]γ</li>
+</ul>
+</li>
+<li>经过一步或者多步推导出：[+=&gt;]<ul>
+<li>α[*=&gt;]β 且 α 不等于 β 等价于 α[+=&gt;]β</li>
+</ul>
+</li>
+<li>最左/右推导<ul>
+<li>符号：[<em>=&gt;lm]/[</em>=&gt;rm]</li>
+</ul>
+</li>
+</ul>
+<h1 id="句型-句子-语言"><a href="#句型-句子-语言" class="headerlink" title="句型/句子/语言"></a>句型/句子/语言</h1><ul>
+<li>句型（sentential form）：<ul>
+<li>如果 S[*=&gt;]α，那么 α 就是文法的一个句型</li>
+<li>可能既包含非终结符，又包含终结符号；可以是空串</li>
+</ul>
+</li>
+<li>句子（sentence）<ul>
+<li>文法的句子就是不包含非终结符号的句型</li>
+</ul>
+</li>
+<li>语言<ul>
+<li>文法 G 的语言就是 G 的句子的集合，记为 L(G)</li>
+<li>ω 在 L(G)中当且仅当 ω 是 G 的句子，即 S[*=&gt;]ω</li>
+</ul>
+</li>
+</ul>
+<h1 id="非终结符号的替换顺序"><a href="#非终结符号的替换顺序" class="headerlink" title="非终结符号的替换顺序"></a>非终结符号的替换顺序</h1><p>通常使用两种方式进行推导</p>
+<ul>
+<li>最左推导：任何一步 α =&gt; β 都是对 α 中的最左非终结符进行替换。记作[*=&gt;lm]</li>
+<li>最右推导：任何一步 α =&gt; β 都是对 α 中的最右非终结符进行替换。记作[*=&gt;rm]</li>
+</ul>
+<p>每个最左推导步骤可以写成<code>wAy[*=&gt;lm]wty</code>应用产生式:<code>A-&gt;t</code></p>
+<h1 id="语法分析树"><a href="#语法分析树" class="headerlink" title="语法分析树"></a>语法分析树</h1><p>推导的图形表示形式</p>
+<ul>
+<li>根结点的标号是文法的开始符号</li>
+<li>每个叶子结点的标号是非终结符号、终结符号或 ε</li>
+<li>每个内部节点的标号是非终结符号</li>
+<li>每个内部结点表示某个产生式的一次应用<ul>
+<li>内部结点的标号为产生式头，结点的子结点从左到右是产生式的体</li>
+</ul>
+</li>
+<li>有时允许树的根不是开始符号（对应于某个短语）</li>
+<li>树的叶子组成的序列是根的文法符号的句型</li>
+<li>一棵分析树可对应多个推导序列，但是分析树和最左（右）推导序列之间具有一一对应关系</li>
+</ul>
+<p>性质：</p>
+<ul>
+<li>推导的图形表示形式，树上看不出来推导的顺序</li>
+<li>能够反映串的语法层次结构</li>
+<li>语法分析树<ul>
+<li>内部节点：对应于一个非终结符号</li>
+<li>子节点：对应于其父节点为头的产生式体</li>
+<li>叶子节点：可以是终结符号或非终结符号，从左到右排列可以得到一个句型，称为这棵树的结果</li>
+</ul>
+</li>
+</ul>
+<h1 id="二义性文法"><a href="#二义性文法" class="headerlink" title="二义性文法"></a>二义性文法</h1><p>如果一个文法可以为一个句子生成多棵不同的语法分析树，则该文法为二义性文法</p>
+<blockquote>
+<p>例子看 PPT Pg.26</p>
+</blockquote>
+<p>通常情况下，我们需要无二义性的文法</p>
+<h2 id="二义性"><a href="#二义性" class="headerlink" title="二义性"></a>二义性</h2><p>程序设计语言的文法通常都应该是无二义性的</p>
+<ul>
+<li>否则就会导致一个程序有多种“正确”的解释。</li>
+<li>比如文法： E → -E | E+E | E*E | (E) | id 的句子 a+b*c</li>
+</ul>
+<p><strong>但有些二义性的情况可以方便文法或语法分析器的设计</strong></p>
+<ul>
+<li>一般需要消二义性规则来剔除不要的语法分析树</li>
+</ul>
+<h1 id="词法分析和语法分析比较"><a href="#词法分析和语法分析比较" class="headerlink" title="词法分析和语法分析比较"></a>词法分析和语法分析比较</h1><ul>
+<li>文法比正则表达式描述能力更强</li>
+<li>正则表达式描述词法单元比较简洁</li>
+<li>基于正则表达式构造的词法分析器效率更高</li>
+<li>正则表达式适合描述词法结构，文法适合描述嵌套结构</li>
+</ul>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>文法的类别，Chomsky 文法类</p>
+<ul>
+<li>0 型文法(短语结构文法)， α →β</li>
+<li>1 型文法(上下文相关文法)， αAβ → αγβ</li>
+<li>2 型文法(上下文无关文法)， A →γ</li>
+<li>3 型文法(正则文法)，A →t, A →tB</li>
+</ul>
+<h1 id="上下文无关文法和正则表达式"><a href="#上下文无关文法和正则表达式" class="headerlink" title="上下文无关文法和正则表达式"></a>上下文无关文法和正则表达式</h1><ul>
+<li>上下文无关文法的表达能力更强<ul>
+<li>每个正则表达式都可以用一个上下文无关文法来描述，反之不成立</li>
+<li>每个正则语言都是一个上下文无关语言，反之不成立</li>
+</ul>
+</li>
+<li>正则表达式(a|b)*abb 等价于文法：</li>
+</ul>
+<blockquote>
+<p>Ａ０ → ａＡ０｜ｂＡ０｜ａＡ１</p>
+<p>Ａ１ → ｂＡ２</p>
+<p>Ａ２ → ｂＡ３</p>
+<p>Ａ３ →ε</p>
+</blockquote>
+<h1 id="文法的设计"><a href="#文法的设计" class="headerlink" title="文法的设计"></a>文法的设计</h1><p>在进行高效的语法分析之前，需要对文法做以下处理：</p>
+<ul>
+<li>消除二义性<ul>
+<li>文法的二义性：文法可以为一个句子生成多颗不同的树</li>
+</ul>
+</li>
+<li>消除左递归<ul>
+<li>左递归：文法中一个非终结符号 A 使得对某个串 α，存在一个推导 A [+=&gt;]Aα，则称这个文法是左递归的</li>
+</ul>
+</li>
+<li>提取左公因子</li>
+</ul>
+<h2 id="消除二义性"><a href="#消除二义性" class="headerlink" title="消除二义性"></a>消除二义性</h2><p>PPT 上有个 if if else 的例子 Pg.42</p>
+<ul>
+<li>二义性的消除方法没有规律可循</li>
+<li>通常并不是通过改变文法来消除二义性</li>
+</ul>
+<h2 id="消除左递归"><a href="#消除左递归" class="headerlink" title="消除左递归"></a>消除左递归</h2><h3 id="消除立即左递归"><a href="#消除立即左递归" class="headerlink" title="消除立即左递归"></a>消除立即左递归</h3><p>思路是用一个中间态来表达闭包的那部分</p>
+<p>PPT Pg.46</p>
+<h3 id="消除间接左递归"><a href="#消除间接左递归" class="headerlink" title="消除间接左递归"></a>消除间接左递归</h3><p>拆环，再做消除立即左递归</p>
+<h2 id="提取左公因子"><a href="#提取左公因子" class="headerlink" title="提取左公因子"></a>提取左公因子</h2><p>因为 LL(1)这种预测分析方法只看一个符号，所以要提取左公因子</p>
+<h1 id="自顶向下分析"><a href="#自顶向下分析" class="headerlink" title="自顶向下分析"></a>自顶向下分析</h1><p>自顶向下：从语法开始符号 S 推导出串 s</p>
+<p>也可以看作:从语法树的根节点出发推导出叶子节点的过程</p>
+<p>自顶向下分析的核心问题是：对于非终结符号 A，选择哪一个产生式</p>
+<h2 id="递归下降分析"><a href="#递归下降分析" class="headerlink" title="递归下降分析"></a>递归下降分析</h2><p>类似穷举，bruteforce approach</p>
+<h2 id="预测分析法"><a href="#预测分析法" class="headerlink" title="预测分析法"></a>预测分析法</h2><p>一种确定性的、无回溯的分析技术</p>
+<h3 id="怎么做到无回溯"><a href="#怎么做到无回溯" class="headerlink" title="怎么做到无回溯"></a>怎么做到无回溯</h3><p>对文法进行操作：</p>
+<ul>
+<li>消除二义性</li>
+<li>消除左递归</li>
+<li>提取左公因子</li>
+</ul>
+<h3 id="操作过程"><a href="#操作过程" class="headerlink" title="操作过程"></a>操作过程</h3><ul>
+<li>通过在输入中向前看固定多个符号来选择正确的产生式<ul>
+<li>一般是看一个</li>
+</ul>
+</li>
+<li>当前句型是 xAβ，而输入是 xα…。那么选择产生式 A=&gt;α 的必要条件是下列之一：<ul>
+<li>Α=&gt;α；</li>
+<li>Α=&gt;ε，且 β 以 α 开头；也就是说在某个句型中 α 跟在 A 之后；</li>
+<li>如果按照这两个条件选择时能够保证唯一性，那么我们就可以避免回溯。</li>
+</ul>
+</li>
+</ul>
+<p>所以定义两个函数 <code>FIRST()</code> <code>FOLLOW()</code> 对应以上两种情况</p>
+<ul>
+<li><code>FIRST(α)</code>: 可以从 α 推导得到的串的首符号的集合（可以包括 ε）；</li>
+<li><code>FOLLOW(A)</code>: 在某些句型中能紧跟在 A 右边的终结符号的集合。</li>
+</ul>
+<p><code>FIRST()</code> <code>FOLLOW()</code> 的计算看 PPT 73</p>
+<h1 id="预测分析表的构建"><a href="#预测分析表的构建" class="headerlink" title="预测分析表的构建"></a>预测分析表的构建</h1><ul>
+<li>如果当前推导的符号是 A，当前需要匹配的终结符号属于 FIRST(α)，使用的产生式就是 A→α<ul>
+<li>FIRST(α)中的每一个终结符号 a，表格项 M(A,a)=A→α</li>
+</ul>
+</li>
+<li>如果当前推到的非终结符号是 A，需要匹配的终结符号是 FOLLOW(A)中的元素，则非终结符 A 使用了 ε 产生式推导。<ul>
+<li>FOLLOW(A)中的每一个终结符号 b，表格项 M(A,b)=A→ε</li>
+</ul>
+</li>
+</ul>
+<h1 id="预测分析栈"><a href="#预测分析栈" class="headerlink" title="预测分析栈"></a>预测分析栈</h1><p>在自顶向下分析的过程中，我们总是：</p>
+<ul>
+<li>匹配掉句型中左边的所有终结符号</li>
+<li>对于最左边的非终结符号，我们选择适当的产生式展开</li>
+<li>匹配成功的终结符号不会再被考虑，因此我们只需要记住句型的余下部分，以及尚未匹配的输入终结符号串</li>
+<li>由于展开的动作总是发生在余下部分的左端，我们可以用<strong>栈</strong>来存放这些符号</li>
+</ul>
+<p>栈的处理方法：<br>栈顶符号：X 当前输入符号：a</p>
+<ol>
+<li>X=a=\$ 分析成功结束</li>
+<li>如果 X=a≠\$，则从栈中退去 X，并把输入指针推进到指向下一个输入符号<ul>
+<li>这步的意思是匹配成功了一部分</li>
+</ul>
+</li>
+<li>如果 X 是一个非终结符号，且分析表 A 的元素 A[X][a]=“X →X1X2…Xk”，则把栈顶的 X 替换为 XkX2…X1 （反向下推入栈，使得 X1 在栈顶）<ul>
+<li>这步是推导</li>
+</ul>
+</li>
+<li>除上述情况外的其它情况，调用出错程序</li>
+</ol>
+<h1 id="自底向上分析"><a href="#自底向上分析" class="headerlink" title="自底向上分析"></a>自底向上分析</h1><p>从输入的每个终结符号开始，规约成一个文法符号</p>
+<p>“移入+规约”：反向的推导</p>
+<h1 id="句柄"><a href="#句柄" class="headerlink" title="句柄"></a>句柄</h1><p>最右句型 γ 的一个句柄：</p>
+<ul>
+<li>满足下述条件的产生式 A→β 及串 β 在 γ 中出现的位置</li>
+<li>条件：将这个位置上的 β 替换为 A 之后得到的串是 γ 的某个最右推导序列中出现在位于 γ 之前的最右句型</li>
+</ul>
+<p>通俗地说：<strong>句柄是最右推导的反向过程中被规约的那些部分</strong><br>再通俗一点：最右推导是把句型里最右边的头换成对应的体，那么句柄就是把最左边的体规约成对应的头</p>
+<p>句柄的作用：对句柄的规约，代表了相应的最右推导中的一个反向步骤</p>
+<h1 id="移进归约语法分析框架"><a href="#移进归约语法分析框架" class="headerlink" title="移进归约语法分析框架"></a>移进归约语法分析框架</h1><ul>
+<li>一种自底向上的分析形式</li>
+<li>使用一个栈保存文法符号，一个输入缓冲区存放将要进行分析的剩余符号</li>
+<li>对输入串的一次从左到右的扫描过程中，语法分析器将零个或多个输入符号移到栈的顶端，直到它可以对栈顶的一个文法符号串进行归约为止。它将归约为某个产生式的头。不断重复这个循环，直到它检测到一个语法错误，或者栈中包含了开始符号且输入缓冲区为空。</li>
+</ul>
+<h2 id="主要分析动作"><a href="#主要分析动作" class="headerlink" title="主要分析动作"></a>主要分析动作</h2><ul>
+<li>移入：将下一个输入符号移动到栈顶</li>
+<li>归约：将句柄归约为相应的非终结符号<ul>
+<li>句柄总是在栈顶</li>
+<li>具体操作时弹出句柄，压入被归约到的非终结符号</li>
+</ul>
+</li>
+<li>接受：宣布分析过程成功完成</li>
+<li>报错：发现语法错误，调用错误恢复子程序</li>
+</ul>
+<h2 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h2><p>冲突：</p>
+<ul>
+<li>移入/规约冲突</li>
+<li>规约/规约冲突</li>
+</ul>
+<h1 id="LR-语法分析技术"><a href="#LR-语法分析技术" class="headerlink" title="LR 语法分析技术"></a>LR 语法分析技术</h1><p>LR(k)的语法分析概念</p>
+<ul>
+<li>L 表示最左扫描，R 表示反向构造出最右推导</li>
+<li><p>k 表示最多向前看 k 个符号</p>
+</li>
+<li><p>移入-归约语法分析器如何知道何时该移入、何时该归约呢？</p>
+<ul>
+<li>LR 语法分析器试图用一些状态来表明我们在移进归约语法分析过程中所处的位置，从而做出移入- 归约决定</li>
+</ul>
+</li>
+<li>项的意义<ul>
+<li>指明在语法分析过程中的给定点上，我们已经看到了一个产生式的哪些部分。或者说，如果我们想用这个产生式进行归约，还需要看到哪些文法符号</li>
+</ul>
+</li>
+<li>项的集合（项集）对应于一个状态</li>
+</ul>
+<h1 id="LR-0-项"><a href="#LR-0-项" class="headerlink" title="LR(0)项"></a>LR(0)项</h1><ul>
+<li>文法的一个产生式加上在其产生式体中某处的一个点<ul>
+<li>A →.XYZ，A → X.YZ，A → XY.Z，A → XYZ.</li>
+<li>注意：A → ε 只对应一个项 A →.</li>
+</ul>
+</li>
+<li>直观含义<ul>
+<li>项 A → α.β 表示已经扫描/归约到了 α，并期望接下 来的输入中经过扫描/归约得到 β，然后把 αβ 归约到 A</li>
+<li>如果 β 为空，表示我们可以把 α 归约为 A</li>
+</ul>
+</li>
+<li>项也可以用一对整数表示<ul>
+<li>(i,j)表示第 i 条规则，点位于右部第 j 个位置</li>
+</ul>
+</li>
+</ul>
+<h2 id="规范-LR-0-项集族"><a href="#规范-LR-0-项集族" class="headerlink" title="规范 LR(0)项集族"></a>规范 LR(0)项集族</h2><ul>
+<li>规范 LR(0)项集族提供构建 LR(0)自动机的基础<ul>
+<li>LR(0)自动机可用于做出语法分析决定</li>
+<li>LR(0)自动机中每个状态代表了 LR(0)项集族中的一个项集</li>
+</ul>
+</li>
+</ul>
+<h2 id="规范-LR-0-项集族的构造"><a href="#规范-LR-0-项集族的构造" class="headerlink" title="规范 LR(0)项集族的构造"></a>规范 LR(0)项集族的构造</h2><ul>
+<li>三个概念<ul>
+<li>增广文法</li>
+<li>项集闭包：CLOSURE</li>
+<li>GOTO</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>增广文法<ul>
+<li>只加一条新的开始符号</li>
+<li>目的是告诉编译器什么时候分析结束</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>CLOSURE(I)的构造算法<ul>
+<li>如果 A → α.Bβ 在 CLOSURE(I)中，那么对 B 的任意产生式 B → γ，将 B →.γ 加到 CLOSURE(I)中</li>
+<li>表示它期望能够扫描归约到 γ</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>GOTO 函数<ul>
+<li>I 是一个项集，X 是一个文法符号，GOTO(I,X)定义为 I 中所有形如的项[A → α·Xβ]所对应的项[A → αX·β]的集合的闭包<ul>
+<li>GOTO(I,X)表示读取输入中的 X 或者归约到一个 X 之后的情况</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="LR-0-项集中的内核项和非内核项"><a href="#LR-0-项集中的内核项和非内核项" class="headerlink" title="LR(0)项集中的内核项和非内核项"></a>LR(0)项集中的内核项和非内核项</h2><ul>
+<li>内核项：初始项 S’ →.S、以及所有点不在最左边的项</li>
+<li>非内核项：除了 S’ →.S 之外、点在最左边的项</li>
+</ul>
+<p>由于表可能很庞大，实现算法时可以考虑只保存相应的非终结符号；甚至可以只保存内核项，而在要使用非内核项时调用 CLOSURE 函数重新计算</p>
+<h1 id="SLR-分析表"><a href="#SLR-分析表" class="headerlink" title="SLR 分析表"></a>SLR 分析表</h1><p>以 LR(0)项和 LR(0)自动机为基础，基于文法 G 的规范项集族 C 和 GOTO 函数就可以构造出 SLR 的语法分析表</p>
+<p>构造算法：PPT 156</p>
+<p>根据上一算法构造的语法分析表，若表中各位置没有多个条目，则称为文法 G 的 SLR(1)分析表。使用该分析表的分析器，称为 G 的 SLR(1)语法分析器。G 称为 SLR(1)文法</p>
+<p>若表中某位置存在多个条目（多个可选的动作，冲突），则该文法是非 SLR(1)文法</p>
+</div><div class="tags"><a href="/tags/课程/"><i class="fa fa-tag"></i>课程</a><a href="/tags/compiler/"><i class="fa fa-tag"></i>compiler</a><a href="/tags/笔记/"><i class="fa fa-tag"></i>笔记</a></div><div class="post-nav"><a class="pre" href="/2020/11/04/课程-编译原理笔记5/">[课程]编译原理笔记5</a><a class="next" href="/2020/09/17/面经-字节基础架构后端开发一面/">[面经]字节基础架构后端开发一面</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"><input type="hidden" name="sitesearch" value="https://twt233.github.io"></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/PA/" style="font-size: 15px;">PA</a> <a href="/tags/Node-js/" style="font-size: 15px;">Node.js</a> <a href="/tags/warframe/" style="font-size: 15px;">warframe</a> <a href="/tags/课程/" style="font-size: 15px;">课程</a> <a href="/tags/compiler/" style="font-size: 15px;">compiler</a> <a href="/tags/c/" style="font-size: 15px;">c</a> <a href="/tags/笔记/" style="font-size: 15px;">笔记</a> <a href="/tags/vscode/" style="font-size: 15px;">vscode</a> <a href="/tags/js-ts/" style="font-size: 15px;">js/ts</a> <a href="/tags/面经/" style="font-size: 15px;">面经</a> <a href="/tags/os/" style="font-size: 15px;">os</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/计网/" style="font-size: 15px;">计网</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/01/14/课程-编译原理笔记7/">[课程]编译原理笔记7</a></li><li class="post-list-item"><a class="post-list-link" href="/2021/01/10/课程-编译原理笔记6/">[课程]编译原理笔记6</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/21/课程-编译原理lab3/">[课程]编译原理lab3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/04/课程-编译原理笔记5/">[课程]编译原理笔记5</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/24/课程-编译原理笔记4/">[课程]编译原理笔记4</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/17/面经-字节基础架构后端开发一面/">[面经]字节基础架构后端开发一面</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记3/">[课程]编译原理笔记3</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/09/10/课程-编译原理笔记2/">[课程]编译原理笔记2</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/27/vscode-Language-Extensions入门/">[vscode]Language Extensions入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/04/23/Node-js-nvm的安装和使用/">[Node.js]nvm的安装和使用</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">Twilight Tornado.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="Copy Successed!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
